@@ -3,104 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=1024, user-scalable=no">
-    <title>Dashboard Retro iPad</title>
+    <title>Premium Dashboard iPad</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Outfit:wght@400;800&display=swap" rel="stylesheet">
 
     <style>
+        :root {
+            --bg-grad: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
+            --accent: #3b82f6;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             background: #020617;
             color: #f8fafc;
-            margin: 0;
-            padding: 2.5%;
-            overflow: hidden;
-            height: 100vh;
-            width: 100vw;
+            margin: 0; padding: 20px;
+            overflow: hidden; height: 100vh; width: 100vw;
             box-sizing: border-box;
+            transition: background 0.5s ease;
         }
         h1, h2 { font-family: 'Outfit', sans-serif; }
 
-        /* Fondo sin filtros pesados para que no se trabe el iPad */
         .bg-wrapper {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1;
-            background: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; background: var(--bg-grad);
+            transition: background 0.5s ease;
         }
 
-        /* Glassmorphism compatible */
         .glass {
             background: rgba(255, 255, 255, 0.05);
-            /* Prefijo webkit para el blur en Safari viejo */
             -webkit-backdrop-filter: blur(20px);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 30px;
-            padding: 40px;
-            margin-bottom: 25px; 
+            padding: 35px;
+            margin-bottom: 20px; 
             box-shadow: 0 15px 35px rgba(0,0,0,0.4);
             box-sizing: border-box;
         }
 
-        /* Layout robusto para Safari Viejo */
         .main-container {
-            display: table;
-            width: 100%;
-            height: 90vh;
-            border-spacing: 25px 0;
-            border-collapse: separate;
+            display: table; width: 100%; height: 90vh;
+            border-spacing: 20px 0; border-collapse: separate;
             table-layout: fixed;
         }
         .col { display: table-cell; vertical-align: top; }
         .col-left { width: 58%; }
         .col-right { width: 42%; }
 
-        /* Reloj compatible */
         .time-text {
-            font-size: 8.5rem;
-            line-height: 1.1;
-            font-weight: 800;
-            margin: 5px 0;
-            display: inline-block;
-            letter-spacing: -4px;
+            font-size: 8.5rem; line-height: 1.1; font-weight: 800;
+            display: inline-block; letter-spacing: -4px;
         }
 
-        .reveal {
-            -webkit-animation: fadeIn 1.2s ease-out;
-            animation: fadeIn 1.2s ease-out;
-        }
-        @-webkit-keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .clearfix::after { content: ""; clear: both; display: table; }
 
-        /* Float fixes */
-        .clearfix::after {
-            content: "";
-            clear: both;
-            display: table;
+        /* Estilo para el botón de temas */
+        .theme-btn {
+            position: fixed; bottom: 30px; right: 30px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 15px; border-radius: 50%;
+            color: white; font-size: 20px;
+            cursor: pointer; z-index: 100;
         }
     </style>
 </head>
-<body>
-    <div class="bg-wrapper"></div>
+<body class="theme-ocean">
+    <div class="bg-wrapper" id="bg"></div>
+
+    <!-- Botón para cambiar temas -->
+    <button class="theme-btn" onclick="nextTheme()" title="Cambiar Color">
+        <i class="fas fa-magic"></i>
+    </button>
 
     <div class="main-container">
         <!-- Columna Izquierda -->
         <div class="col col-left">
-            <!-- Reloj -->
-            <div class="glass reveal">
+            <div class="glass">
                 <h2 id="greeting" class="text-2xl font-light text-slate-400">Buenas tardes,</h2>
-                <div class="clearfix" style="margin-top: 10px;">
+                <div class="clearfix">
                     <span id="time" class="time-text text-white">00:00</span>
                     <span id="ampm" class="text-3xl font-semibold text-slate-500" style="vertical-align: 45px; margin-left: 10px;">PM</span>
                 </div>
-                <p id="date" class="text-2xl text-slate-300 mt-6 font-light">Cargando fecha...</p>
+                <p id="date" class="text-2xl text-slate-300 mt-4 font-light italic">Cargando fecha...</p>
             </div>
 
-            <!-- Frase -->
-            <div class="glass reveal" style="margin-bottom: 0;">
-                <div style="border-left: 5px solid #3b82f6; padding-left: 25px;">
-                    <p id="quote-text" class="text-2xl font-normal leading-relaxed text-slate-100 italic">"Cargando frase..."</p>
+            <div class="glass" style="margin-bottom: 0;">
+                <div style="border-left: 5px solid var(--accent); padding-left: 25px;">
+                    <p id="quote-text" class="text-2xl font-normal leading-relaxed text-slate-100 italic">"..."</p>
                     <p id="quote-author" class="text-sm text-blue-400 mt-3 font-semibold uppercase tracking-widest">— ...</p>
                 </div>
             </div>
@@ -109,7 +101,7 @@
         <!-- Columna Derecha -->
         <div class="col col-right">
             <!-- Clima -->
-            <div class="glass reveal">
+            <div class="glass">
                 <div class="clearfix">
                     <i id="weather-icon" class="fas fa-sun" style="font-size: 5rem; color: #fbbf24; float: left;"></i>
                     <span id="temperature" style="font-size: 5.5rem; font-weight: 800; float: right; line-height: 1;">--°</span>
@@ -117,96 +109,100 @@
                 <div style="margin-top: 30px;">
                     <p id="weather-desc" class="text-3xl font-semibold capitalize text-white">Cargando...</p>
                     <p class="text-lg text-slate-400 mt-2">
-                        <i class="fas fa-location-dot text-blue-500" style="margin-right: 5px;"></i> Concepción del Uruguay
+                        <i class="fas fa-location-dot" style="color: var(--accent); margin-right: 5px;"></i> Concepción del Uruguay
                     </p>
-                </div>
-                <div class="clearfix" style="margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 30px;">
-                    <div style="width: 50%; float: left;">
-                        <span class="text-xs text-slate-500 uppercase tracking-widest">Viento</span><br>
-                        <span id="wind-speed" class="text-xl font-semibold text-slate-200">-- km/h</span>
-                    </div>
-                    <div style="width: 50%; float: left;">
-                        <span class="text-xs text-slate-500 uppercase tracking-widest">Humedad</span><br>
-                        <span id="humidity" class="text-xl font-semibold text-slate-200">--%</span>
-                    </div>
                 </div>
             </div>
 
-            <!-- Batería -->
-            <div class="glass reveal" style="margin-bottom: 0;">
-                <div class="clearfix">
+            <!-- Mercado / Dólar -->
+            <div class="glass" style="margin-bottom: 0;">
+                <h3 class="text-xs uppercase text-slate-500 font-semibold tracking-widest mb-4">Mercado de Divisas</h3>
+                <div class="clearfix" style="margin-bottom: 15px;">
                     <div style="float: left;">
-                        <h3 class="text-xs uppercase text-slate-500 font-semibold tracking-widest">Energía</h3>
-                        <p id="battery-status" class="text-sm text-slate-400 italic mt-1">Calculando...</p>
+                        <span class="text-blue-400 font-bold">DÓLAR BLUE</span>
                     </div>
                     <div style="float: right; text-align: right;">
-                        <span id="battery-level" class="text-4xl font-bold text-white">--%</span>
-                        <i id="battery-icon" class="fas fa-battery-half text-3xl text-green-400" style="margin-left: 15px; vertical-align: middle;"></i>
+                        <span id="dolar-blue" class="text-2xl font-bold">$---</span>
                     </div>
+                </div>
+                <div class="clearfix">
+                    <div style="float: left;">
+                        <span class="text-slate-400">DÓLAR OFICIAL</span>
+                    </div>
+                    <div style="float: right; text-align: right;">
+                        <span id="dolar-oficial" class="text-xl text-slate-300">$---</span>
+                    </div>
+                </div>
+                <div style="margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; text-align: center;">
+                    <p class="text-xs text-slate-500 italic">Actualización automática cada 1h</p>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // --- LOGICA ---
+        // --- TEMAS ---
+        var themes = [
+            { bg: "radial-gradient(circle at center, #0f172a 0%, #020617 100%)", acc: "#3b82f6" }, // Océano
+            { bg: "radial-gradient(circle at center, #064e3b 0%, #022c22 100%)", acc: "#10b981" }, // Esmeralda
+            { bg: "radial-gradient(circle at center, #4c1d95 0%, #1e1b4b 100%)", acc: "#8b5cf6" }, // Sunset
+            { bg: "radial-gradient(circle at center, #450a0a 0%, #000000 100%)", acc: "#ef4444" }  // Sangría/Gótico
+        ];
+        var currentTheme = 0;
+        function nextTheme() {
+            currentTheme = (currentTheme + 1) % themes.length;
+            document.getElementById('bg').style.background = themes[currentTheme].bg;
+            document.documentElement.style.setProperty('--accent', themes[currentTheme].acc);
+        }
+
+        // --- RELOJ ---
         function updateTime() {
             var now = new Date();
             var hours = now.getHours();
-            var minutes = now.getMinutes();
-            var ampm = hours >= 12 ? 'PM' : 'AM';
-            var greeting = 'Buenas noches,';
-            if (hours >= 6 && hours < 12) greeting = 'Buen día,';
-            else if (hours >= 12 && hours < 19) greeting = 'Buenas tardes,';
+            var min = now.getMinutes();
+            var greeting = (hours < 12) ? 'Buen día,' : (hours < 19 ? 'Buenas tardes,' : 'Buenas noches,');
             
-            hours = hours % 12 || 12;
-            minutes = minutes < 10 ? '0' + minutes : minutes;
-            document.getElementById('time').innerHTML = hours + ":" + minutes;
-            document.getElementById('ampm').innerText = ampm;
+            document.getElementById('time').innerHTML = (hours % 12 || 12) + ":" + (min < 10 ? '0' + min : min);
+            document.getElementById('ampm').innerText = hours >= 12 ? 'PM' : 'AM';
             document.getElementById('greeting').innerText = greeting;
-
-            var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            var dateStr = now.toLocaleDateString('es-ES', options);
-            document.getElementById('date').innerText = dateStr.charAt(0).toUpperCase() + dateStr.slice(1);
+            document.getElementById('date').innerText = now.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' });
         }
         setInterval(updateTime, 1000); updateTime();
 
+        // --- CLIMA ---
         async function fetchWeather() {
             try {
-                var res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=-32.4825&longitude=-58.2372&current_weather=true&hourly=relativehumidity_2m');
+                var res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=-32.4825&longitude=-58.2372&current_weather=true');
                 var data = await res.json();
-                var current = data.current_weather;
-                var codes = {0:'Despejado',1:'Cielo claro',2:'Nublado',3:'Cubierto',45:'Niebla',61:'Lluvia',95:'Tormenta'};
-                document.getElementById('temperature').innerText = Math.round(current.temperature) + '°';
-                document.getElementById('weather-desc').innerText = codes[current.weathercode] || "Nublado";
-                document.getElementById('wind-speed').innerText = Math.round(current.windspeed) + " km/h";
-                document.getElementById('humidity').innerText = data.hourly.relativehumidity_2m[0] + "%";
+                document.getElementById('temperature').innerText = Math.round(data.current_weather.temperature) + '°';
+                document.getElementById('weather-desc').innerText = "Cielo Despejado";
             } catch(e) {}
         }
         fetchWeather();
 
-        if (navigator.getBattery) {
-            navigator.getBattery().then(function(battery) {
-                var update = function() {
-                    var level = Math.round(battery.level * 100);
-                    document.getElementById('battery-level').innerText = level + "%";
-                    document.getElementById('battery-status').innerText = battery.charging ? 'Cargando' : 'Batería';
-                    var icon = document.getElementById('battery-icon');
-                    if(battery.charging) icon.className = "fas fa-bolt text-3xl text-yellow-400";
-                    else icon.className = "fas fa-battery-full text-3xl text-green-400";
-                };
-                update(); battery.onlevelchange = update; battery.onchargingchange = update;
-            });
+        // --- DÓLAR (API Argentina) ---
+        async function fetchDolar() {
+            try {
+                var res = await fetch('https://dolarapi.com/v1/dolares');
+                var data = await res.json();
+                data.forEach(function(d) {
+                    if(d.casa === 'blue') document.getElementById('dolar-blue').innerText = "$" + Math.round(d.venta);
+                    if(d.casa === 'oficial') document.getElementById('dolar-oficial').innerText = "$" + Math.round(d.venta);
+                });
+            } catch(e) {
+                document.getElementById('dolar-blue').innerText = "N/A";
+            }
         }
+        fetchDolar(); setInterval(fetchDolar, 3600000);
 
+        // --- FRASES ---
         var quotes = [
-            {t: "No cuentes los días, haz que los días cuenten.", a: "Muhammad Ali"},
-            {t: "La mejor manera de predecir el futuro es inventarlo.", a: "Alan Kay"},
-            {t: "Si puedes soñarlo, puedes hacerlo.", a: "Walt Disney"}
+            {t: "No cuentes los días, haz que los días cuenten.", a: "M. Ali"},
+            {t: "Si puedes soñarlo, puedes hacerlo.", a: "W. Disney"}
         ];
         var q = quotes[Math.floor(Math.random()*quotes.length)];
         document.getElementById('quote-text').innerText = '"' + q.t + '"';
-        document.getElementById('quote-author').innerText = "— " + q.a.toUpperCase();
+        document.getElementById('quote-author').innerText = "— " + q.a;
     </script>
 </body>
 </html>
