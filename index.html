@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Premium Dashboard iPad</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Inter & Outfit -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --accent-blue: #60a5fa;
+            --accent-yellow: #fbbf24;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #020617;
+            color: #f8fafc;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        h1, h2, .font-display {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        /* Fondo Animado con Orbes */
+        .bg-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            background: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: move linear infinite;
+        }
+
+        .orb-1 {
+            width: 500px;
+            height: 500px;
+            background: #1e40af;
+            top: -10%;
+            left: -10%;
+            animation-duration: 25s;
+        }
+
+        .orb-2 {
+            width: 400px;
+            height: 400px;
+            background: #312e81;
+            bottom: -5%;
+            right: -5%;
+            animation-duration: 30s;
+        }
+
+        .orb-3 {
+            width: 300px;
+            height: 300px;
+            background: #1e3a8a;
+            top: 40%;
+            left: 50%;
+            animation-duration: 20s;
+        }
+
+        @keyframes move {
+            0% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+            100% { transform: translate(0, 0) scale(1); }
+        }
+
+        /* Estilo de Cristal Premium */
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid var(--glass-border);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 2rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+        }
+
+        /* Animaciones de entrada */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: reveal 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+
+        @keyframes reveal {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .colon {
+            display: inline-block;
+            width: 0.3em;
+            text-align: center;
+        }
+
+        /* Scrollbar hidden */
+        ::-webkit-scrollbar { display: none; }
+
+        /* Fullscreen button polish */
+        #fullscreen-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        #fullscreen-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+
+<body class="p-6 md:p-12 select-none">
+
+    <!-- Background Layer -->
+    <div class="bg-wrapper">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <!-- Toggle Fullscreen -->
+    <button id="fullscreen-btn" class="absolute top-6 right-6 z-50 text-white/40 p-4 rounded-2xl backdrop-blur-xl shadow-lg" onclick="toggleFullScreen()">
+        <i class="fas fa-expand-alt text-xl"></i>
+    </button>
+
+    <main class="w-full max-w-7xl h-full flex flex-col md:flex-row gap-8 items-stretch">
+        
+        <!-- Left Column: Clock & Quote -->
+        <div class="flex-[1.5] flex flex-col gap-8">
+            
+            <!-- Clock Widget -->
+            <div class="glass reveal delay-1 p-10 md:p-14 flex-1 flex flex-col justify-center relative overflow-hidden">
+                <!-- Subtle internal light -->
+                <div class="absolute -top-1/2 -right-1/2 w-full h-full bg-blue-500/10 rounded-full blur-[120px]"></div>
+                
+                <h2 id="greeting" class="text-2xl md:text-3xl font-light text-slate-400 mb-2 tracking-wide">Buenos días,</h2>
+                
+                <div class="flex items-baseline mt-2">
+                    <h1 id="time" class="text-8xl md:text-[10rem] font-extrabold tracking-tighter leading-none text-white drop-shadow-2xl">
+                        00<span class="colon text-blue-500">:</span>00
+                    </h1>
+                    <span id="ampm" class="text-3xl md:text-5xl font-semibold ml-4 text-slate-500">AM</span>
+                </div>
+                
+                <p id="date" class="text-xl md:text-3xl text-slate-300 mt-8 font-light tracking-wide">Cargando fecha...</p>
+            </div>
+
+            <!-- Quote Widget -->
+            <div class="glass reveal delay-2 p-8 md:p-10 flex items-center group">
+                <div class="w-1.5 h-16 bg-blue-500/30 rounded-full mr-8 group-hover:bg-blue-500/60 transition-colors"></div>
+                <div class="flex-1">
+                    <p id="quote-text" class="text-lg md:text-2xl font-normal leading-relaxed text-slate-100 italic transition-opacity duration-500">"El único modo de hacer un gran trabajo es amar lo que haces."</p>
+                    <p id="quote-author" class="text-sm md:text-base text-blue-400/80 mt-3 font-semibold tracking-widest uppercase transition-opacity duration-500">— STEVE JOBS</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column: Weather & Battery -->
+        <div class="flex-1 flex flex-col gap-8">
+            
+            <!-- Weather Widget -->
+            <div class="glass reveal delay-3 p-10 relative overflow-hidden flex-1 flex flex-col justify-between">
+                <!-- Weather Glow -->
+                <div class="absolute -bottom-20 -left-10 w-64 h-64 bg-yellow-500/10 rounded-full blur-[100px]"></div>
+                
+                <div class="relative z-10">
+                    <div class="flex justify-between items-center">
+                        <i id="weather-icon" class="fas fa-sun text-7xl text-yellow-400 filter drop-shadow-[0_0_15px_rgba(250,204,21,0.4)]"></i>
+                        <span id="temperature" class="text-7xl font-bold tracking-tighter">--°</span>
+                    </div>
+                    
+                    <div class="mt-8">
+                        <p id="weather-desc" class="text-3xl font-semibold capitalize text-white tracking-tight">Cargando...</p>
+                        <p id="location" class="text-lg text-slate-400 mt-2 flex items-center gap-2 font-light">
+                            <i class="fas fa-location-dot text-blue-500/70"></i> Concepción del Uruguay
+                        </p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-8 mt-10 pt-10 border-t border-white/5 relative z-10">
+                    <div class="flex flex-col gap-1">
+                        <span class="text-xs text-slate-500 uppercase tracking-[0.2em] font-medium">Viento</span>
+                        <span id="wind-speed" class="text-xl font-semibold text-slate-100 tracking-tight">-- km/h</span>
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <span class="text-xs text-slate-500 uppercase tracking-[0.2em] font-medium">Humedad</span>
+                        <span id="humidity" class="text-xl font-semibold text-slate-100 tracking-tight">--%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Battery Widget -->
+            <div class="glass reveal delay-4 p-8 flex items-center justify-between group overflow-hidden relative">
+                <div class="relative z-10">
+                    <h3 class="text-xs uppercase tracking-[0.2em] text-slate-500 mb-1 font-semibold">Energía</h3>
+                    <p id="battery-status" class="text-sm text-slate-400 font-light italic">Calculando...</p>
+                </div>
+                <div class="flex items-center gap-6 relative z-10">
+                    <span id="battery-level" class="text-4xl font-bold tracking-tighter">--%</span>
+                    <div class="relative">
+                        <i id="battery-icon" class="fas fa-battery-half text-4xl text-green-400"></i>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        // --- RELOJ Y FECHA ---
+        function updateTime() {
+            const now = new Date();
+            let hours = now.getHours();
+            let minutes = now.getMinutes();
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+
+            let greeting = 'Buenas noches,';
+            if (hours >= 6 && hours < 12) greeting = 'Buen día,';
+            else if (hours >= 12 && hours < 19) greeting = 'Buenas tardes,';
+
+            hours = hours % 12 || 12;
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+
+            document.getElementById('time').innerHTML = `${hours}<span class="colon">:</span>${minutes}`;
+            document.getElementById('ampm').innerText = ampm;
+            document.getElementById('greeting').innerText = greeting;
+
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            let dateString = now.toLocaleDateString('es-ES', options);
+            document.getElementById('date').innerText = dateString.charAt(0).toUpperCase() + dateString.slice(1);
+        }
+
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        // --- CLIMA ---
+        let lat = -32.4825;
+        let lon = -58.2372;
+
+        const weatherCodes = {
+            0: { desc: 'Despejado', icon: 'fa-sun', color: 'text-yellow-400' },
+            1: { desc: 'Cielo claro', icon: 'fa-sun', color: 'text-yellow-400' },
+            2: { desc: 'Parcialmente cubierto', icon: 'fa-cloud-sun', color: 'text-slate-300' },
+            3: { desc: 'Nublado', icon: 'fa-cloud', color: 'text-slate-400' },
+            45: { desc: 'Niebla', icon: 'fa-smog', color: 'text-slate-400' },
+            61: { desc: 'Lluvia ligera', icon: 'fa-cloud-rain', color: 'text-blue-400' },
+            95: { desc: 'Tormenta eléctrica', icon: 'fa-bolt', color: 'text-yellow-500' },
+        };
+
+        async function fetchWeather() {
+            try {
+                const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&hourly=relativehumidity_2m`;
+                const response = await fetch(url);
+                const data = await response.json();
+                const current = data.current_weather;
+                const weatherInfo = weatherCodes[current.weathercode] || { desc: 'Nublado', icon: 'fa-cloud', color: 'text-slate-400' };
+
+                document.getElementById('temperature').innerText = `${Math.round(current.temperature)}°`;
+                document.getElementById('weather-desc').innerText = weatherInfo.desc;
+                document.getElementById('wind-speed').innerText = `${Math.round(current.windspeed)} km/h`;
+                document.getElementById('humidity').innerText = `${data.hourly.relativehumidity_2m[0] || '--'}%`;
+                
+                const iconElement = document.getElementById('weather-icon');
+                iconElement.className = `fas ${weatherInfo.icon} text-7xl ${weatherInfo.color} filter drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]`;
+            } catch (error) {
+                console.error("Weather error:", error);
+            }
+        }
+
+        fetchWeather();
+
+        // --- BATERÍA ---
+        if ('getBattery' in navigator) {
+            navigator.getBattery().then(battery => {
+                const update = () => {
+                    const level = Math.round(battery.level * 100);
+                    document.getElementById('battery-level').innerText = `${level}%`;
+                    document.getElementById('battery-status').innerText = battery.charging ? 'Cargando energía' : 'Consumiendo batería';
+                    const icon = document.getElementById('battery-icon');
+                    icon.className = `fas text-4xl ${battery.charging ? 'fa-bolt text-yellow-400' : (level > 20 ? 'fa-battery-full text-green-400' : 'fa-battery-quarter text-red-500')}`;
+                };
+                update();
+                battery.onlevelchange = update;
+                battery.onchargingchange = update;
+            });
+        }
+
+        // --- FRASES ---
+        const quotes = [
+            { text: "La vida es aquello que te sucede mientras estás ocupado haciendo otros planes.", author: "John Lennon" },
+            { text: "No cuentes los días, haz que los días cuenten.", author: "Muhammad Ali" },
+            { text: "La mejor manera de predecir el futuro es inventarlo.", author: "Alan Kay" },
+            { text: "Si puedes soñarlo, puedes hacerlo.", author: "Walt Disney" },
+            { text: "El éxito es ir de fracaso en fracaso sin perder el entusiasmo.", author: "Winston Churchill" }
+        ];
+
+        function changeQuote() {
+            const quote = quotes[Math.floor(Math.random() * quotes.length)];
+            const textEl = document.getElementById('quote-text');
+            const authEl = document.getElementById('quote-author');
+            textEl.style.opacity = 0;
+            authEl.style.opacity = 0;
+            setTimeout(() => {
+                textEl.innerText = `"${quote.text}"`;
+                authEl.innerText = `— ${quote.author.toUpperCase()}`;
+                textEl.style.opacity = 1;
+                authEl.style.opacity = 1;
+            }, 600);
+        }
+
+        setInterval(changeQuote, 15000);
+        changeQuote();
+
+        // --- PANTALLA COMPLETA ---
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+                document.querySelector('#fullscreen-btn i').classList.replace('fa-expand-alt', 'fa-compress-alt');
+            } else {
+                document.exitFullscreen();
+                document.querySelector('#fullscreen-btn i').classList.replace('fa-compress-alt', 'fa-expand-alt');
+            }
+        }
+    </script>
+</body>
+
+</html>
