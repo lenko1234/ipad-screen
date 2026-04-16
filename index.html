@@ -48,15 +48,16 @@
             display: table; width: 100%; height: auto;
             border-spacing: 25px 0; border-collapse: separate;
             table-layout: fixed;
-            margin-top: 60px;
+            margin-top: 50px;
         }
         .col { display: table-cell; vertical-align: top; }
         .col-left { width: 58%; }
         .col-right { width: 42%; }
 
+        /* Reloj MUCHO más grande */
         .time-text {
-            font-size: 8.5rem; line-height: 1.1; font-weight: 800;
-            display: inline-block; letter-spacing: -4px;
+            font-size: 11rem; line-height: 0.95; font-weight: 800;
+            display: inline-block; letter-spacing: -6px;
         }
 
         .clearfix::after { content: ""; clear: both; display: table; }
@@ -74,9 +75,11 @@
             display: flex; align-items: center; justify-content: center;
             transition: all 0.3s ease;
         }
-        .theme-btn:active {
-            background: rgba(255,255,255,0.2);
-            transform: scale(0.9);
+
+        /* Estilo para el efecto blur animado de las frases */
+        #quote-container {
+            transition: all 0.8s ease-in-out;
+            -webkit-transition: all 0.8s ease-in-out;
         }
     </style>
 </head>
@@ -92,15 +95,15 @@
         <div class="col col-left">
             <div class="glass">
                 <h2 id="greeting" class="text-2xl font-light text-slate-400">&nbsp;</h2>
-                <div class="clearfix">
+                <div class="clearfix" style="margin-top: 5px;">
                     <span id="time" class="time-text text-white">00:00</span>
-                    <span id="ampm" class="text-3xl font-semibold text-slate-500" style="vertical-align: 45px; margin-left: 10px;">&nbsp;</span>
+                    <span id="ampm" class="text-3xl font-semibold text-slate-500" style="vertical-align: 65px; margin-left: -5px;">&nbsp;</span>
                 </div>
-                <p id="date" class="text-2xl text-slate-300 mt-4 font-light italic">&nbsp;</p>
+                <p id="date" class="text-2xl text-slate-300 mt-2 font-light italic">&nbsp;</p>
             </div>
 
             <div class="glass" style="margin-bottom: 0;">
-                <div style="border-left: 5px solid var(--accent); padding-left: 25px;">
+                <div id="quote-container" style="border-left: 5px solid var(--accent); padding-left: 25px;">
                     <p id="quote-text" class="text-2xl font-normal leading-relaxed text-slate-100 italic">&nbsp;</p>
                     <p id="quote-author" class="text-sm text-blue-400 mt-3 font-semibold uppercase tracking-widest">&nbsp;</p>
                 </div>
@@ -112,7 +115,7 @@
             <!-- Clima -->
             <div class="glass">
                 <div class="clearfix">
-                    <i id="weather-icon" class="fas fa-sun" style="font-size: 5rem; color: #fbbf24; float: left; opacity: 0;"></i>
+                    <i id="weather-icon" class="fas fa-sun" style="font-size: 5rem; color: #fbbf24; float: left; opacity: 0; transition: opacity 1s;"></i>
                     <span id="temperature" style="font-size: 5.5rem; font-weight: 800; float: right; line-height: 1;">&nbsp;</span>
                 </div>
                 <div style="margin-top: 30px;">
@@ -153,7 +156,7 @@
     </div>
 
     <script>
-        // --- TEMAS ---
+        // --- TEMAS (Expandido a 9 opciones) ---
         var themes = [
             { bg: "radial-gradient(circle at center, #0f172a 0%, #020617 100%)", acc: "#3b82f6" }, 
             { bg: "radial-gradient(circle at center, #064e3b 0%, #022c22 100%)", acc: "#10b981" }, 
@@ -244,14 +247,24 @@
         
         function changeQuote() {
             var q = quotes[Math.floor(Math.random()*quotes.length)];
+            var container = document.getElementById('quote-container');
             var qEl = document.getElementById('quote-text');
             var aEl = document.getElementById('quote-author');
-            qEl.style.opacity = 0; aEl.style.opacity = 0;
+            
+            // Efecto Blur Out
+            container.style.opacity = 0;
+            container.style.filter = "blur(12px)";
+            container.style.webkitFilter = "blur(12px)";
+            
             setTimeout(function(){
                 qEl.innerText = '"' + q.t + '"';
                 aEl.innerText = "— " + q.a.toUpperCase();
-                qEl.style.opacity = 1; aEl.style.opacity = 1;
-            }, 500);
+                
+                // Efecto Blur In
+                container.style.opacity = 1;
+                container.style.filter = "blur(0px)";
+                container.style.webkitFilter = "blur(0px)";
+            }, 800);
         }
         changeQuote(); setInterval(changeQuote, 20000);
     </script>
